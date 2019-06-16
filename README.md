@@ -35,7 +35,7 @@ Run `elm-live src/Main.elm --open -- --output=main.js` to start the development 
 
 Run `elm make src/Main.elm --output=main.js --optimize` for production mode.
 
-deployについては、[How to optimize Elm code(https://elm-lang.org/0.19.0/optimize)を参考になさってください。
+deployについては、[How to optimize Elm code](https://elm-lang.org/0.19.0/optimize)を参考になさってください。
 
 作成経過は以下に記載しています。
 

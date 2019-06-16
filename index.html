@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="styles.css"
+    />
+    <script
+      defer
+      src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"
+    ></script>
+    <script src="main.js"></script>
+  </head>
+  <body>
+    <!-- Firebase App is always required and must be first -->
+    <script src="https://www.gstatic.com/firebasejs/5.9.1/firebase-app.js"></script>
+
+    <!-- Add additional services that you want to use -->
+    <script src="https://www.gstatic.com/firebasejs/5.9.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.9.1/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.9.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.9.1/firebase-messaging.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.9.1/firebase-functions.js"></script>
+
+    <script>
+      var receiveMessage = {};
+      var receiveLocalStorage = {};
+
+      const app = Elm.Main.init({
+        flags: {receiveMessage, receiveLocalStorage}
+      });
+
+      // Loads items from the local storage.
+      app.ports.getLocalStorage.subscribe( (key) => {
+        receiveLocalStorage = {
+          key: key,
+          value: localStorage.getItem(key)
+        };
+        app.ports.receiveLocalStorage.send(receiveLocalStorage);
+      });
+
+      // Saves a new item on the local storage.
+      app.ports.setLocalStorage.subscribe( (req) => {
+        localStorage.setItem(req[0],req[1]);
+      });
+
+
+      // Initialize Firebase　(ご自身のFirebaseのアドレスを入力してください。）
+      const config = {databaseURL: "https://(ご自身のFirebaseのアドレス).firebaseio.com"};
+      firebase.initializeApp(config);
+      const database = firebase.database();
+      const ref = database.ref('messages');
+
+      // Loads chat messages history and listens for upcoming ones.
+      ref.on("child_added", (snapshot) => {
+          receiveMessage = {
+              key: snapshot.key,
+              value: snapshot.val()
+          };
+          app.ports.receiveMessage.send(receiveMessage);
+      });
+
+      // Saves a new message on the Firebase DB.
+      const postMessage = (content) => {
+        ref.push(content)
+        .then((res) => {
+          console.log(res);
+        });
+      };
+
+      app.ports.postMessage.subscribe((data) => {
+        postMessage(JSON.stringify(data));
+      });
+    </script>
+  </body>
+</html>

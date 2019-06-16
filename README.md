@@ -8,6 +8,8 @@
 
 https://github.com/qnoyxu/chat-room
 
+画像は[いらすとや](https://www.irasutoya.com/)のものです。
+
 ## DEMO サイト
 
 https://romantic-noyce-862b75.netlify.com/

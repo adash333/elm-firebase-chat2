@@ -17,7 +17,7 @@ https://romantic-noyce-862b75.netlify.com/
 ## インストール方法
 
 ご自身のFirebaseプロジェクトを作成してください。  
-（参考：http://i-doctor.sakura.ne.jp/font/?p=37690）
+参考：http://i-doctor.sakura.ne.jp/font/?p=37690
 
 `git clone https://github.com/adash333/elm-firebase-chat2.git`
 
@@ -32,6 +32,10 @@ Run `elm install linuss/smooth-scroll` to install all dependencies.
 Run `npm install elm-live` 
 
 Run `elm-live src/Main.elm --open -- --output=main.js` to start the development environment.
+
+Run `elm make src/Main.elm --output=main.js --optimize` for production mode.
+
+deployについては、[How to optimize Elm code(https://elm-lang.org/0.19.0/optimize)を参考になさってください。
 
 作成経過は以下に記載しています。
 
